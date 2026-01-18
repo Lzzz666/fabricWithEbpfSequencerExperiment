@@ -59,6 +59,10 @@ peer:
         # dialTimeout is the duration the gateway waits for a connection
         # to other network nodes.
         dialTimeout: 2m
+        sequencerTransport: "grpc"
+        
+        sequencerAddress: "172.20.10.5:7073"
+        # sequencerAddress: "10.140.0.10:7073"
 
 
     # Keepalive settings for peer server and clients

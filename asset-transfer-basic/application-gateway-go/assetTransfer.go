@@ -186,6 +186,35 @@ func getAllAssets(contract *client.Contract) {
 	result := formatJSON(evaluateResult)
 
 	fmt.Printf("*** Result:%s\n", result)
+
+	// 計算 AppraisedValue 為 1300 的資產數量
+	count := countAssetsWithAppraisedValue(evaluateResult, "1300")
+	fmt.Printf("*** 資產評估價值為 1300 的數量: %d\n", count)
+}
+
+// 計算指定 AppraisedValue 的資產數量
+func countAssetsWithAppraisedValue(data []byte, targetValue string) int {
+	var assets []map[string]interface{}
+	if err := json.Unmarshal(data, &assets); err != nil {
+		fmt.Printf("解析 JSON 失敗: %v\n", err)
+		return 0
+	}
+
+	count := 0
+	for _, asset := range assets {
+		if appraisedValue, exists := asset["AppraisedValue"]; exists {
+			// 檢查是否為字串類型
+			if strValue, ok := appraisedValue.(string); ok && strValue == targetValue {
+				count++
+			}
+			// 檢查是否為數字類型
+			if numValue, ok := appraisedValue.(float64); ok && fmt.Sprintf("%.0f", numValue) == targetValue {
+				count++
+			}
+		}
+	}
+
+	return count
 }
 
 // Submit a transaction synchronously, blocking until it has been committed to the ledger.

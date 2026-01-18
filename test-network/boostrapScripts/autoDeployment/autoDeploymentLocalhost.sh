@@ -16,6 +16,8 @@ if [ -z "$1" ]; then
 fi
 
 ROOT_DIR=$1
+
+export PATH=$PATH:~/Documents/Research_Test/original_nopaxos_fabric/fabricWithEbpfSequencer/scripts/bin
 echo "Using root path: $ROOT_DIR"
 
 echo ""

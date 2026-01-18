@@ -44,6 +44,7 @@ services:
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
     volumes:
       - ../../organizations/peerOrganizations/org1.example.com/peers/peer2.org1.example.com:/etc/hyperledger/fabric
+      - ../../configs/configPeer2:/etc/hyperledger/peercfg
       - peer2.org1.example.com:/var/hyperledger/production
     working_dir: /root
     command: peer node start

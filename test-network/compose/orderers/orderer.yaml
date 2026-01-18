@@ -56,6 +56,7 @@ services:
       - 7053:7053
       - 7443:7443
       - 7073:7073/udp
+      - 7074:7074  # gRPC port for sequencer
       - 7085:7085
       - 7086:7086
     networks:

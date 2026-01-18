@@ -212,7 +212,8 @@ Application: &ApplicationDefaults
         #---Events resource to policy mapping for access control###---#
 
         # ACL policy for sending block events
-        event/Block: /Channel/Application/Readers
+        # 修改為 /Channel/Readers 以允許 Orderer 從 Peer 同步區塊
+        event/Block: /Channel/Readers
 
         # ACL policy for sending filtered block events
         event/FilteredBlock: /Channel/Application/Readers

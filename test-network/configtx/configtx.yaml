@@ -279,4 +279,5 @@ Profiles:
       <<: *ApplicationDefaults
       Organizations:
         - *Org1
+        - *OrdererOrg  # 允許 Orderer 訪問 Application 通道（用於區塊同步）
       Capabilities: *ApplicationCapabilities
