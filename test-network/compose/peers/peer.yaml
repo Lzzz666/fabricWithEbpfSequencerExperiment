@@ -51,6 +51,7 @@ services:
     command: peer node start
     ports:
       - 12051:12051
+      - 12052:12052
       - 12444:12444
     extra_hosts:
       - "orderer.example.com:10.140.0.9"
