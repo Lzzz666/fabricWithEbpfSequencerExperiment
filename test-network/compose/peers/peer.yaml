@@ -51,5 +51,13 @@ services:
     ports:
       - 12051:12051
       - 12444:12444
+    extra_hosts:
+      - "orderer.example.com:10.140.0.9"
+      - "orderer1.example.com:10.140.0.2"
+      - "orderer2.example.com:10.140.0.3"
+      - "orderer3.example.com:10.140.0.4"
+      - "peer0.org1.example.com:10.140.0.7"
+      - "peer1.org1.example.com:10.140.0.6"
+      - "peer2.org1.example.com:10.140.0.8"
     # networks:
     #   - test
