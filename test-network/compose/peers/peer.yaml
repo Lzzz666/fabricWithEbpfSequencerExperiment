@@ -8,10 +8,10 @@ version: '3.7'
 volumes:
   peer0.org1.example.com:
 
-networks:
-  test:
-    name: fabric_test
-    external: true
+# networks:
+#   test:
+#     name: fabric_test
+#     external: true
 
 services:
   peer0.org1.example.com:
@@ -51,5 +51,5 @@ services:
     ports:
       - 12051:12051
       - 12444:12444
-    networks:
-      - test
+    # networks:
+    #   - test
