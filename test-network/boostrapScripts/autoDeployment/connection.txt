@@ -1,0 +1,26 @@
+orderer1 ssh lz@35.229.147.60
+orderer1 ssh lz@35.229.171.253
+orderer2 ssh lz@34.80.136.190
+orderer3 ssh lz@35.234.56.10
+
+peer0 ssh lz@35.201.241.96
+peer1 ssh lz@34.81.21.239
+peer2 ssh lz@35.201.182.70
+
+sequencer ssh lz@104.199.136.122
+
+
+git clone https://github.com/Lzzz666/fabricWithEbpfSequencerExperiment.git
+上傳以下兩個檔案到 vm 上
+~/Documents/Research_Test/original_nopaxos_fabric/fabricWithEbpfSequencer
+~/Documents/Research_Test/original_nopaxos_fabricE/fabricWithEbpfSequencerExperiment
+
+（如果我之後在我的 mac 更新 我要怎麼直接蓋上去？
+
+我希望我的流程是
+1. 我更新好程式碼後在 local, make docker 
+2. ./installfabric b
+3. 更新上去各個 vm
+4. 開啟sequencer
+5. autodeployment gcp
+我需要確認我的 vm 設定符合我需要使用的環境

@@ -1,0 +1,15 @@
+# Dockerfile for Fabric CLI binaries
+# 用於打包和分發 binaries 到各個 VM
+
+FROM alpine:latest
+
+# 複製 binaries
+COPY bin/ /usr/local/bin/
+
+# 設定執行權限
+RUN chmod +x /usr/local/bin/*
+
+# 驗證
+RUN ls -la /usr/local/bin/
+
+CMD ["echo", "Fabric tools image - use: docker cp <container>:/usr/local/bin/ ./bin/"]
