@@ -9,13 +9,13 @@ SSH_USER="lz"
 
 # VM IP 地址配置
 declare -A VMS
-VMS["orderer0"]="35.229.147.60"
-VMS["orderer1"]="35.229.171.253"
-VMS["orderer2"]="34.80.136.190"
-VMS["orderer3"]="35.234.56.10"
-VMS["peer0"]="35.201.241.96"
-VMS["peer1"]="34.81.21.239"
-VMS["peer2"]="35.201.182.70"
+VMS["orderer0"]="35.229.144.77"
+VMS["orderer1"]="34.80.206.206"
+VMS["orderer2"]="35.194.218.10"
+VMS["orderer3"]="104.199.222.55"
+VMS["peer0"]="104.155.194.223"
+VMS["peer1"]="34.80.197.84"
+VMS["peer2"]="35.236.133.204"
 
 # SSH 執行命令
 run_ssh() {
