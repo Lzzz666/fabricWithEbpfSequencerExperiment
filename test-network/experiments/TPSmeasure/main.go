@@ -19,7 +19,6 @@ import (
 	"github.com/hyperledger/fabric-protos-go-apiv2/common"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
-	"google.golang.org/protobuf/proto"
 )
 
 const (
@@ -155,35 +154,26 @@ func readFirstFile(dirPath string) ([]byte, error) {
 func measureTPS(blocks <-chan *common.Block) {
 	startTime := time.Now()
 	var totalTransactions int
+	var totalBlocks int
 
 	for blockEvent := range blocks {
 		bc := blockEvent.GetData()
-		for _, data := range bc.Data {
-			env := &common.Envelope{}
-			if err := proto.Unmarshal(data, env); err != nil {
-				fmt.Printf("Failed to unmarshal envelope: %v\n", err)
-				continue
-			}
+		totalBlocks++
+		blockTxnCount := len(bc.Data) // 直接數 data 數量，不解析內容
+		totalTransactions += blockTxnCount
 
-			payload := &common.Payload{}
-			if err := proto.Unmarshal(env.Payload, payload); err != nil {
-				fmt.Printf("Failed to unmarshal payload: %v\n", err)
-				continue
-			}
-
-			chHeader := &common.ChannelHeader{}
-			if err := proto.Unmarshal(payload.Header.ChannelHeader, chHeader); err != nil {
-				fmt.Printf("Failed to unmarshal channel header: %v\n", err)
-				continue
-			}
-
-			if chHeader.Type == int32(common.HeaderType_ENDORSER_TRANSACTION) {
-				totalTransactions++
-			}
-		}
+		// 即時輸出每個 block 的資訊
+		elapsed := time.Since(startTime).Seconds()
+		currentTPS := float64(totalTransactions) / elapsed
+		fmt.Printf("Block #%d: %d txns | Total: %d | Elapsed: %.2fs | TPS: %.2f\n",
+			totalBlocks, blockTxnCount, totalTransactions, elapsed, currentTPS)
 	}
 
 	duration := time.Since(startTime).Seconds()
 	tps := float64(totalTransactions) / duration
-	fmt.Printf("Total Transactions: %d, Duration: %f, TPS: %f\n", totalTransactions, duration, tps)
+	fmt.Printf("\n=== Final Results ===\n")
+	fmt.Printf("Total Blocks: %d\n", totalBlocks)
+	fmt.Printf("Total Transactions: %d\n", totalTransactions)
+	fmt.Printf("Duration: %.2f seconds\n", duration)
+	fmt.Printf("TPS: %.2f\n", tps)
 }
