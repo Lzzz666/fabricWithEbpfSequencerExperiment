@@ -1,12 +1,12 @@
-VMS["orderer0"]="35.229.144.77"
-VMS["orderer1"]="34.80.206.206"
-VMS["orderer2"]="35.194.218.10"
-VMS["orderer3"]="104.199.222.55"
-VMS["peer0"]="104.155.194.223"
-VMS["peer1"]="34.80.197.84"
-VMS["peer2"]="35.236.133.204"
+VMS["orderer0"]="104.199.222.55"
+VMS["orderer1"]="35.236.133.204"
+VMS["orderer2"]="34.80.197.84"
+VMS["orderer3"]="35.229.223.218"
+VMS["peer0"]="34.80.206.206"
+VMS["peer1"]="35.229.144.77"
+VMS["peer2"]="104.155.194.223"
 
-sequencer ssh lz@35.229.223.218
+sequencer ssh lz@35.194.218.10
 
 
 git clone https://github.com/Lzzz666/fabricWithEbpfSequencerExperiment.git
