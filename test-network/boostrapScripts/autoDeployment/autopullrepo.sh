@@ -21,10 +21,10 @@ set -e
 SSH_USER="lz"
 
 # 預設分支
-DEFAULT_BRANCH="feat/raft"
+DEFAULT_BRANCH="gcp-nopaxos-setup"
 
 # 專案在 VM 上的路徑
-REMOTE_REPO_PATH="mainPlan/fabricWithEbpfSequencerExperiment"
+REMOTE_REPO_PATH="~/fabricWithEbpfSequencerExperiment"
 
 # Git 倉庫 URL
 GIT_REPO_URL="https://github.com/Lzzz666/fabricWithEbpfSequencerExperiment.git"
