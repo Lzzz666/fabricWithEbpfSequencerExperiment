@@ -59,7 +59,7 @@ run_ssh() {
     local ip="${VMS[$vm_name]}"
 
     echo -e "${BLUE}[$vm_name @ $ip]${NC} $cmd"
-    ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 "$SSH_USER@$ip" "export PATH=\$PATH:~/Fabric_batch_unit_order/scripts/bin && $cmd"
+    ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 "$SSH_USER@$ip" "export PATH=\$PATH:~/fabricWithEbpfSequencer/scripts/bin && $cmd"
 }
 
 # 在所有 VM 上執行命令
