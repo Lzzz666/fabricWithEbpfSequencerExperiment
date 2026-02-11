@@ -49,10 +49,7 @@ services:
       - peer2.org1.example.com:/var/hyperledger/production
     working_dir: /root
     command: peer node start
-    ports:
-      - 14051:14051
-      - 14052:14052
-      - 14444:14444
+    network_mode: host
     extra_hosts:
       - "orderer.example.com:10.140.0.19"
       - "orderer1.example.com:10.140.0.20"
