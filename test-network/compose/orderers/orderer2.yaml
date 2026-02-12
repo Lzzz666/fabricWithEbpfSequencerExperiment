@@ -47,19 +47,12 @@ services:
       - ORDERER_METRICS_PROVIDER=prometheus
     working_dir: /root
     command: orderer
+    network_mode: host
     volumes:
         - ../../organizations/ordererOrganizations/example.com/orderers/orderer2.example.com/msp:/var/hyperledger/orderer/msp
         - ../../organizations/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/:/var/hyperledger/orderer/tls
         - ../../ebpfExec:/var/ebpfExec
         - orderer2.example.com:/var/hyperledger/production/orderer
-    ports:
-      - 9050:9050
-      - 9053:9053
-      - 9443:9443
-      - 9073:9073/udp
-      - 9074:9074  # gRPC port for sequencer
-      - 9085:9085
-      - 9086:9086
     extra_hosts:
       - "orderer.example.com:10.140.0.19"
       - "orderer1.example.com:10.140.0.20"
