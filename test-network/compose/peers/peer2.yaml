@@ -52,11 +52,11 @@ services:
       - 14051:14051
       - 14444:14444
     extra_hosts:
-      - "orderer.example.com:34.81.30.7"
-      - "orderer1.example.com:34.81.10.171"
-      - "orderer2.example.com:35.201.198.28"
-      - "orderer3.example.com:34.81.170.165"
-      - "peer0.org1.example.com:35.194.168.248"
-      - "peer1.org1.example.com:35.221.209.220"
+      - "orderer.example.com:10.140.0.19"
+      - "orderer1.example.com:10.140.0.20"
+      - "orderer2.example.com:10.140.0.21"
+      - "orderer3.example.com:10.140.0.22"
+      - "peer0.org1.example.com:10.140.0.16"
+      - "peer1.org1.example.com:10.140.0.17"
     networks:
       - test

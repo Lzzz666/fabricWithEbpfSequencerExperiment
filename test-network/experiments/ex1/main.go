@@ -21,9 +21,9 @@ import (
 
 var wgg sync.WaitGroup
 
-// GCP internal IPs: peer0=10.140.0.7, peer1=10.140.0.6, peer2=10.140.0.8
+// GCP internal IPs: peer0=10.140.0.16, peer1=10.140.0.17, peer2=10.140.0.18
 // For local testing, change to: {"localhost:12051", "localhost:13051", "localhost:14051"}
-var peerEndpoints = [3]string{"localhost:12051", "10.140.0.6:13051", "10.140.0.8:14051"}
+var peerEndpoints = [3]string{"localhost:12051", "10.140.0.17:13051", "10.140.0.18:14051"}
 var gatewayPeers = [3]string{"peer0.org1.example.com", "peer1.org1.example.com", "peer2.org1.example.com"}
 
 func main() {

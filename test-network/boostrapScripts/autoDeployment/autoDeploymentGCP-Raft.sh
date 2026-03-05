@@ -111,7 +111,7 @@ log_step "Step 1: Docker Cleanup"
 for vm_name in $(echo "${!VMS[@]}" | tr ' ' '\n' | sort); do
     run_ssh "$vm_name" \
         "docker rm -f \$(docker ps -a -q) 2>/dev/null || true; \
-         docker volume rm \$(docker volume ls -q) 2>/dev/null || true" || true
+         docker volume prune -f 2>/dev/null || true" || true
 done
 
 log_success "Docker cleanup 完成"
@@ -149,7 +149,8 @@ run_ssh "peer1" "cd ${REMOTE_PATH}/bringUpNode && ./peer1.sh"
 run_ssh "peer2" "cd ${REMOTE_PATH}/bringUpNode && ./peer2.sh"
 
 log_success "所有節點已啟動"
-sleep 5
+log_info "等待 Raft leader 選舉..."
+sleep 15
 
 # -----------------------------------------------------------------------------
 # Step 3: Join Channel
