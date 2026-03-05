@@ -36,6 +36,9 @@ Organizations:
       Admins:
         Type: Signature
         Rule: "OR('OrdererMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
     OrdererEndpoints:
       - orderer.example.com:7050
       - orderer1.example.com:8050
