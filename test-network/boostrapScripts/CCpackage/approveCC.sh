@@ -11,6 +11,6 @@ export CC_PACKAGE_ID=basic_1.0:c6a45e2d5563c883869149c3dbd941c22fbe27daa21f05528
 export CHANNEL_NAME=mychannel
 export ORDERER_CA=${PWD}/../../organizations/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem
 
-export ORDERER_ADDRESS=192.168.50.230:8050
+export ORDERER_ADDRESS=10.140.0.20:8050
 
 peer lifecycle chaincode approveformyorg -o $ORDERER_ADDRESS --ordererTLSHostnameOverride orderer1.example.com --channelID $CHANNEL_NAME --name mychaincode --version 1.0 --package-id $CC_PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA

@@ -118,6 +118,20 @@ log_success "Docker cleanup 完成"
 sleep 3
 
 # -----------------------------------------------------------------------------
+# Step 1.5: Create Docker Network
+# -----------------------------------------------------------------------------
+
+log_step "Step 1.5: Create Docker Network (fabric_test)"
+
+for vm_name in $(echo "${!VMS[@]}" | tr ' ' '\n' | sort); do
+    run_ssh "$vm_name" \
+        "docker network inspect fabric_test >/dev/null 2>&1 || docker network create fabric_test"
+    log_info "$vm_name: fabric_test network OK"
+done
+
+log_success "Docker network 建立完成"
+
+# -----------------------------------------------------------------------------
 # Step 2: Bring Up Nodes
 # -----------------------------------------------------------------------------
 
