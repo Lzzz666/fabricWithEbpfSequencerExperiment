@@ -32,7 +32,7 @@ REMOTE_PATH="~/fabricWithEbpfSequencerExperiment/test-network/boostrapScripts"
 
 # VM IP 地址配置
 declare -A VMS
-VMS["orderer0"]="104.199.222.55"
+VMS["orderer0"]="34.81.30.7"
 VMS["orderer1"]="35.236.133.204"
 VMS["orderer2"]="34.80.197.84"
 VMS["orderer3"]="35.229.223.218"
