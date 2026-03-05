@@ -30,10 +30,10 @@ SSH_USER="lz"
 # GIT_REPO_URL="https://github.com/Lzzz666/Fabric_batch_unit_order.git"
 
 
-DEFAULT_BRANCH="only_hash_for_block"
+DEFAULT_BRANCH="raft-gcp"
 
 # 專案在 VM 上的路徑
-REMOTE_REPO_PATH="~/Fabric_batch_unit_order"
+REMOTE_REPO_PATH="~/fabricWithEbpfSequencerExperiment"
 
 # Git 倉庫 URL
 GIT_REPO_URL="https://github.com/Lzzz666/fabricWithEbpfSequencerExperiment.git"

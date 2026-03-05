@@ -115,9 +115,20 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     exit 0
 fi
 
+
+log_step "Step 1.5: Create Docker Network (fabric_test)"
+
+for vm_name in $(echo "${!VMS[@]}" | tr ' ' '\n' | sort); do
+    run_ssh "$vm_name" \
+        "docker network inspect fabric_test >/dev/null 2>&1 || docker network create fabric_test"
+    log_info "$vm_name: fabric_test network OK"
+done
+
+log_success "Docker network 建立完成"
 # -----------------------------------------------------------------------------
 # Step 1: Bring Up Nodes
 # -----------------------------------------------------------------------------
+
 
 log_step "Step 3: Bring Up Nodes"
 
@@ -135,7 +146,7 @@ run_ssh "peer1" "cd ${REMOTE_PATH}/bringUpNode && ./peer1.sh"
 run_ssh "peer2" "cd ${REMOTE_PATH}/bringUpNode && ./peer2.sh"
 
 log_success "所有節點已啟動"
-sleep 5
+sleep 10
 
 # -----------------------------------------------------------------------------
 # Step 4: Join Channel
@@ -153,7 +164,7 @@ run_ssh "orderer2" "cd ${REMOTE_PATH}/joinChannel && ./orderer2.sh"
 sleep 1
 run_ssh "orderer3" "cd ${REMOTE_PATH}/joinChannel && ./orderer3.sh"
 
-sleep 5
+sleep 10
 
 # Peers join
 log_info "Peers 加入 channel..."
@@ -164,8 +175,7 @@ sleep 1
 run_ssh "peer2" "cd ${REMOTE_PATH}/joinChannel && ./peer2.sh"
 
 log_success "所有節點已加入 channel"
-sleep 5
-
+sleep 10
 # -----------------------------------------------------------------------------
 # Step 5: Install Chaincode
 # -----------------------------------------------------------------------------
@@ -177,7 +187,7 @@ run_ssh "peer1" "cd ${REMOTE_PATH}/CCpackage && ./peer1CCInstall.sh"
 run_ssh "peer2" "cd ${REMOTE_PATH}/CCpackage && ./peer2CCInstall.sh"
 
 log_success "Chaincode 已安裝"
-sleep 3
+sleep 10
 
 # -----------------------------------------------------------------------------
 # Step 6: Approve & Commit Chaincode
@@ -186,10 +196,10 @@ sleep 3
 log_step "Step 6: Approve & Commit Chaincode"
 
 run_ssh "peer0" "cd ${REMOTE_PATH}/CCpackage && ./approveCC.sh"
-sleep 3
+sleep 10
 
 run_ssh "peer0" "cd ${REMOTE_PATH}/CCpackage && ./commitCC.sh"
-sleep 5
+sleep 10
 
 log_success "Chaincode 已批准並提交"
 
@@ -210,3 +220,4 @@ echo ""
 # 執行 initLedger 初始化帳本
 
 run_ssh "peer0" "cd ~/fabricWithEbpfSequencerExperiment/test-network/experiments/initLedger && export GO111MODULE=on && go mod tidy && go run ."
+
