@@ -59,5 +59,12 @@ services:
       - 9074:9074  # gRPC port for sequencer
       - 9085:9085
       - 9086:9086
+    extra_hosts:
+      - "orderer.example.com:34.81.30.7"
+      - "orderer1.example.com:34.81.10.171"
+      - "orderer3.example.com:34.81.170.165"
+      - "peer0.org1.example.com:35.194.168.248"
+      - "peer1.org1.example.com:35.221.209.220"
+      - "peer2.org1.example.com:104.199.189.201"
     networks:
       - test
