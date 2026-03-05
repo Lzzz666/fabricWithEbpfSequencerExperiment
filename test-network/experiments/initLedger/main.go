@@ -159,7 +159,15 @@ func readFirstFile(dirPath string) ([]byte, error) {
 func initLedger(contract *client.Contract) {
 	fmt.Printf("\n--> Submit Transaction: InitLedger, function creates the initial set of assets on the ledger \n")
 
-	_, err := contract.SubmitTransaction("InitLedger")
+	var err error
+	for i := 0; i < 10; i++ {
+		_, err = contract.SubmitTransaction("InitLedger")
+		if err == nil {
+			break
+		}
+		fmt.Printf("Attempt %d failed: %v\n Retrying in 3s...\n", i+1, err)
+		time.Sleep(3 * time.Second)
+	}
 	if err != nil {
 		panic(fmt.Errorf("failed to submit transaction: %w", err))
 	}
