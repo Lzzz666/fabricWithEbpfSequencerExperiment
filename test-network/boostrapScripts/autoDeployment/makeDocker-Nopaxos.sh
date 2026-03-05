@@ -25,13 +25,13 @@ GIT_BRANCH="origin/only_hash_for_block"
 
 # VM IP 地址配置
 declare -A VMS
-VMS["orderer0"]="104.199.222.55"
-VMS["orderer1"]="35.236.133.204"
-VMS["orderer2"]="34.80.197.84"
-VMS["orderer3"]="35.229.223.218"
-VMS["peer0"]="34.80.206.206"
-VMS["peer1"]="35.229.144.77"
-VMS["peer2"]="104.155.194.223"
+VMS["orderer0"]="34.81.30.7"
+VMS["orderer1"]="34.81.10.171"
+VMS["orderer2"]="35.201.198.28"
+VMS["orderer3"]="34.81.170.165"
+VMS["peer0"]="35.194.168.248"
+VMS["peer1"]="35.221.209.220"
+VMS["peer2"]="104.199.189.201"
 
 # 顏色定義
 RED='\033[0;31m'
