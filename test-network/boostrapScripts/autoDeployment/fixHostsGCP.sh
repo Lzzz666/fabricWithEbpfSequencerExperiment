@@ -30,16 +30,16 @@ VMS["peer2"]="104.155.194.223"
 
 # Orderer 內部 IP 地址（GCP 內部網絡）
 declare -A ORDERER_IPS
-ORDERER_IPS["orderer.example.com"]="34.81.30.7"
-ORDERER_IPS["orderer1.example.com"]="34.81.10.171"
-ORDERER_IPS["orderer2.example.com"]="34.81.170.165"
-ORDERER_IPS["orderer3.example.com"]="34.81.170.165"
+ORDERER_IPS["orderer.example.com"]="10.140.0.19"
+ORDERER_IPS["orderer1.example.com"]="10.140.0.20"
+ORDERER_IPS["orderer2.example.com"]="10.140.0.21"
+ORDERER_IPS["orderer3.example.com"]="10.140.0.22"
 
 # Peer 內部 IP 地址
 declare -A PEER_IPS
-PEER_IPS["peer0.org1.example.com"]="35.221.209.220"
-PEER_IPS["peer1.org1.example.com"]="35.221.209.220"
-PEER_IPS["peer2.org1.example.com"]="104.199.189.201"
+PEER_IPS["peer0.org1.example.com"]="10.140.0.16"
+PEER_IPS["peer1.org1.example.com"]="10.140.0.17"
+PEER_IPS["peer2.org1.example.com"]="10.140.0.18"
 
 # 顏色定義
 RED='\033[0;31m'

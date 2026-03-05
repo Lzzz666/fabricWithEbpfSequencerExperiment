@@ -54,12 +54,12 @@ services:
         - ../../ebpfExec:/var/ebpfExec
         - orderer3.example.com:/var/hyperledger/production/orderer
     extra_hosts:
-      - "orderer.example.com:34.81.30.7"
-      - "orderer1.example.com:34.81.10.171"
-      - "orderer2.example.com:34.81.170.165"
-      - "orderer3.example.com:34.81.170.165"
-      - "peer0.org1.example.com:35.221.209.220"
-      - "peer1.org1.example.com:35.221.209.220"
-      - "peer2.org1.example.com:104.199.189.201"
+      - "orderer.example.com:10.140.0.19"
+      - "orderer1.example.com:10.140.0.20"
+      - "orderer2.example.com:10.140.0.21"
+      - "orderer3.example.com:10.140.0.22"
+      - "peer0.org1.example.com:10.140.0.16"
+      - "peer1.org1.example.com:10.140.0.17"
+      - "peer2.org1.example.com:10.140.0.18"
     # networks:
     #   - test

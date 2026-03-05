@@ -61,7 +61,7 @@ peer:
         dialTimeout: 2m
         sequencerTransport: "grpc"
         sequencerAddress: "host.docker.internal:7073"
-        # sequencerAddress: "104.199.155.71:7073"
+        # sequencerAddress: "10.140.0.23:7073"
 
 
 
