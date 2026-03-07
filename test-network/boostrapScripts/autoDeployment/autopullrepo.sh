@@ -30,13 +30,13 @@ SSH_USER="lz"
 # GIT_REPO_URL="https://github.com/Lzzz666/Fabric_batch_unit_order.git"
 
 
-DEFAULT_BRANCH="raft-gcp"
+DEFAULT_BRANCH="only_hash_for_block"
 
 # 專案在 VM 上的路徑
-REMOTE_REPO_PATH="~/fabricWithEbpfSequencerExperiment"
+REMOTE_REPO_PATH="~/Fabric_batch_unit_order"
 
 # Git 倉庫 URL
-GIT_REPO_URL="https://github.com/Lzzz666/fabricWithEbpfSequencerExperiment.git"
+GIT_REPO_URL="https://github.com/Lzzz666/Fabric_batch_unit_order.git"
 
 # VM IP 地址配置
 declare -A VMS
@@ -44,7 +44,7 @@ VMS["orderer0"]="34.81.30.7"
 VMS["orderer1"]="34.81.10.171"
 VMS["orderer2"]="35.201.198.28"
 VMS["orderer3"]="34.81.170.165"
-VMS["peer0"]="35.194.168.248"
+VMS["peer0"]="34.80.136.133"
 VMS["peer1"]="35.221.209.220"
 VMS["peer2"]="104.199.189.201"
 

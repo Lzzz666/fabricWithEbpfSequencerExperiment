@@ -36,7 +36,7 @@ VMS["orderer0"]="34.81.30.7"
 VMS["orderer1"]="34.81.10.171"
 VMS["orderer2"]="35.201.198.28"
 VMS["orderer3"]="34.81.170.165"
-VMS["peer0"]="35.194.168.248"
+VMS["peer0"]="34.80.136.133"
 VMS["peer1"]="35.221.209.220"
 VMS["peer2"]="104.199.189.201"
 
@@ -59,7 +59,7 @@ run_ssh() {
     local ip="${VMS[$vm_name]}"
 
     echo -e "${BLUE}[$vm_name @ $ip]${NC} $cmd"
-    ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 "$SSH_USER@$ip" "export PATH=\$PATH:~/Fabric_batch_unit_order/scripts/bin && $cmd"
+    ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 "$SSH_USER@$ip" "export PATH=\$PATH:/usr/local/go/bin:~/Fabric_batch_unit_order/scripts/bin && $cmd"
 }
 
 # 在所有 VM 上執行命令
@@ -108,12 +108,6 @@ echo ""
 echo "Skip image pull: $SKIP_PULL"
 echo ""
 
-read -p "確定要開始部署嗎? (y/N) " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    log_info "已取消"
-    exit 0
-fi
 
 # -----------------------------------------------------------------------------
 # Step 1: Bring Up Nodes
@@ -209,4 +203,4 @@ echo ""
 
 # 執行 initLedger 初始化帳本
 
-run_ssh "peer0" "cd ~/fabricWithEbpfSequencerExperiment/test-network/experiments/initLedger && export GO111MODULE=on && go mod tidy && go run ."
+# run_ssh "peer0" "cd ~/fabricWithEbpfSequencerExperiment/test-network/experiments/initLedger && export GO111MODULE=on && go mod tidy && go run ."
