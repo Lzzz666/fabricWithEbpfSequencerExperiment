@@ -62,8 +62,8 @@ peer:
 
         sequencerTransport: "grpc"
 
-        sequencerAddress: "host.docker.internal:7073"
-        # sequencerAddress: "10.140.0.23:7073"
+        # sequencerAddress: "host.docker.internal:7073"
+        sequencerAddress: "10.140.0.23:7073"
 
 
 
