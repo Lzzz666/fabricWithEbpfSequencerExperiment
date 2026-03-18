@@ -68,7 +68,6 @@ func measureLatency(contract *client.Contract, numTransactions int, workload int
 	timeout := time.After(90 * time.Second)
 
 	for i := 0; i < numTransactions; i++ {
-		assetId := "asset" + strconv.FormatInt(time.Now().UnixNano(), 10)
 		time.Sleep(interval)
 
 		select {
@@ -78,6 +77,8 @@ func measureLatency(contract *client.Contract, numTransactions int, workload int
 		default:
 		}
 
+		assetId := "asset" + strconv.FormatInt(time.Now().UnixNano(), 10)
+
 		wg.Add(1)
 		go func(id string) {
 			defer wg.Done()
@@ -85,6 +86,9 @@ func measureLatency(contract *client.Contract, numTransactions int, workload int
 			mu.Lock()
 			defer mu.Unlock()
 			if err != nil {
+				if errCount < 3 {
+					fmt.Printf("[ERROR sample %d] %v\n", errCount+1, err)
+				}
 				errCount++
 			} else {
 				records = append(records, rec)
