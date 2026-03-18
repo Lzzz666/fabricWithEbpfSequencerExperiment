@@ -20,7 +20,13 @@ const (
 	tlsCertPath = cryptoPath + "/peers/peer0.org1.example.com/tls/ca.crt"
 )
 
-func contractForPeer(peerEndpoint string, gatewayPeer string) *client.Contract {
+// PeerClient holds both Contract and Network for a single peer connection.
+type PeerClient struct {
+	Contract *client.Contract
+	Network  *client.Network
+}
+
+func newPeerClient(peerEndpoint string, gatewayPeer string) *PeerClient {
 	clientConnection := newGrpcConnection(gatewayPeer, peerEndpoint)
 
 	id := newIdentity()
@@ -49,7 +55,12 @@ func contractForPeer(peerEndpoint string, gatewayPeer string) *client.Contract {
 	}
 
 	network := gw.GetNetwork(channelName)
-	return network.GetContract(chaincodeName)
+	contract := network.GetContract(chaincodeName)
+
+	return &PeerClient{
+		Contract: contract,
+		Network:  network,
+	}
 }
 
 func newGrpcConnection(gatewayPeer string, peerEndpoint string) *grpc.ClientConn {

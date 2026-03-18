@@ -30,19 +30,19 @@ func main() {
 	perPeerRPS := rps / 2
 	numTx := perPeerRPS * 90
 
-	p0 := contractForPeer(peerEndpoints[0], gatewayPeers[0])
-	p1 := contractForPeer(peerEndpoints[1], gatewayPeers[1])
+	p0 := newPeerClient(peerEndpoints[0], gatewayPeers[0])
+	p1 := newPeerClient(peerEndpoints[1], gatewayPeers[1])
 
 	wg.Add(2)
 
 	go func() {
 		defer wg.Done()
-		measureLatency(p0, numTx, perPeerRPS, "latency_peer0.csv")
+		measureLatency(p0.Contract, p0.Network, numTx, perPeerRPS, "latency_peer0.csv")
 	}()
 
 	go func() {
 		defer wg.Done()
-		measureLatency(p1, numTx, perPeerRPS, "latency_peer1.csv")
+		measureLatency(p1.Contract, p1.Network, numTx, perPeerRPS, "latency_peer1.csv")
 	}()
 
 	wg.Wait()
