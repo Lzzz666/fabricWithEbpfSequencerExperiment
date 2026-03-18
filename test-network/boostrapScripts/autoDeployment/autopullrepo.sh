@@ -40,13 +40,13 @@ GIT_REPO_URL="https://github.com/Lzzz666/Fabric_batch_unit_order.git"
 
 # VM IP 地址配置
 declare -A VMS
-VMS["orderer0"]="34.81.30.7"
-VMS["orderer1"]="34.81.10.171"
-VMS["orderer2"]="35.201.198.28"
-VMS["orderer3"]="34.81.170.165"
-VMS["peer0"]="34.80.136.133"
-VMS["peer1"]="35.221.209.220"
-VMS["peer2"]="104.199.189.201"
+VMS["orderer0"]="34.81.169.202"
+VMS["orderer1"]="34.81.92.165"
+VMS["orderer2"]="35.201.245.17"
+VMS["orderer3"]="35.201.180.52"
+VMS["peer0"]="104.155.212.149"
+VMS["peer1"]="35.187.144.189"
+VMS["peer2"]="35.194.218.189"
 
 # 顏色定義
 RED='\033[0;31m'

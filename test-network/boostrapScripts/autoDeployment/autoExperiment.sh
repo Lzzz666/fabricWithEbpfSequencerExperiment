@@ -21,9 +21,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SSH_USER="lz"
 
 # ─── GCP VM IPs ───────────────────────────────────────────────────────────────
-PEER0_IP="34.80.136.133"    # ex1 benchmark 來源
-PEER2_IP="104.199.189.201"   # TPSmeasure 監聽 peer2
-SEQUENCER_IP="104.199.155.71"
+PEER0_IP="10.140.0.16"    # ex1 benchmark 來源
+PEER2_IP="10.140.0.17"   # TPSmeasure 監聽 peer2
+SEQUENCER_IP="10.140.0.23"
 
 # ─── 實驗參數 ─────────────────────────────────────────────────────────────────
 RPS_LIST=(1000 1500 1800 2000 2500 2800 3000)
