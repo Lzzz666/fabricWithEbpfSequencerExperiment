@@ -37,12 +37,12 @@ func main() {
 
 	go func() {
 		defer wg.Done()
-		measureLatency(p0.Contract, p0.Network, numTx, perPeerRPS, "latency_peer0.csv")
+		measureLatency(p0.Contract, p0.Network, numTx, perPeerRPS, fmt.Sprintf("latency_peer0_%d.csv", rps))
 	}()
 
 	go func() {
 		defer wg.Done()
-		measureLatency(p1.Contract, p1.Network, numTx, perPeerRPS, "latency_peer1.csv")
+		measureLatency(p1.Contract, p1.Network, numTx, perPeerRPS, fmt.Sprintf("latency_peer1_%d.csv", rps))
 	}()
 
 	wg.Wait()
