@@ -28,7 +28,7 @@ func main() {
 	// Each peer handles half the load.
 	// Total duration ~90s → numTransactions per peer = (rps/2) * 90
 	perPeerRPS := rps / 2
-	numTx := perPeerRPS * 90
+	numTx := perPeerRPS * 20
 
 	p0 := newPeerClient(peerEndpoints[0], gatewayPeers[0])
 	p1 := newPeerClient(peerEndpoints[1], gatewayPeers[1])
