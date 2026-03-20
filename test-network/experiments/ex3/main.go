@@ -22,7 +22,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	numTx := rps * 20
+	numTx := rps * 10
 
 	p0 := newPeerClient(peerEndpoint, gatewayPeer)
 
