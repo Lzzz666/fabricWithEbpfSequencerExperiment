@@ -81,7 +81,7 @@ func measureLatency(contract *client.Contract, network *client.Network, numTrans
 	go listenBlockEvents(blockCtx, network, blockCh)
 
 	// Let the subscription settle before starting submissions.
-	time.Sleep(500 * time.Millisecond)
+	time.Sleep(50 * time.Millisecond)
 	experimentStart := time.Now()
 
 	// --- Phase 2: Submit transactions ---
