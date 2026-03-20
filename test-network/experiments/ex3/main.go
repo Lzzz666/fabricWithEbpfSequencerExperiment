@@ -5,13 +5,10 @@ import (
 	"os"
 	"path"
 	"strconv"
-	"sync"
 )
 
-var wg sync.WaitGroup
-
-var peerEndpoints = [2]string{"10.140.0.16:12051", "10.140.0.17:13051"}
-var gatewayPeers = [2]string{"peer0.org1.example.com", "peer1.org1.example.com"}
+var peerEndpoint = "10.140.0.16:12051"
+var gatewayPeer = "peer0.org1.example.com"
 
 func main() {
 	if len(os.Args) < 2 {
@@ -25,27 +22,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Each peer handles half the load.
-	// Total duration ~90s → numTransactions per peer = (rps/2) * 90
-	perPeerRPS := rps / 2
-	numTx := perPeerRPS * 20
+	numTx := rps * 20
 
-	p0 := newPeerClient(peerEndpoints[0], gatewayPeers[0])
-	p1 := newPeerClient(peerEndpoints[1], gatewayPeers[1])
+	p0 := newPeerClient(peerEndpoint, gatewayPeer)
 
-	wg.Add(2)
-
-	go func() {
-		defer wg.Done()
-		measureLatency(p0.Contract, p0.Network, numTx, perPeerRPS, fmt.Sprintf("latency_peer0_%d.csv", rps))
-	}()
-
-	go func() {
-		defer wg.Done()
-		measureLatency(p1.Contract, p1.Network, numTx, perPeerRPS, fmt.Sprintf("latency_peer1_%d.csv", rps))
-	}()
-
-	wg.Wait()
+	measureLatency(p0.Contract, p0.Network, numTx, rps, fmt.Sprintf("latency_peer0_%d.csv", rps))
 	fmt.Println("===== Latency Experiment Done =====")
 }
 
