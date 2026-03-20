@@ -41,7 +41,7 @@ type LatencyRecord struct {
 // listenBlockEvents subscribes to raw block events and forwards them to blockCh.
 // Works with hash-only blocks: we only use block.Header.Number and len(block.Data.Data).
 func listenBlockEvents(ctx context.Context, network *client.Network, blockCh chan<- BlockRecord) {
-	events, err := network.BlockEvents(ctx, client.WithStartBlock(0))
+	events, err := network.BlockEvents(ctx)
 	if err != nil {
 		fmt.Printf("[BlockEvents] subscribe failed: %v\n", err)
 		return
