@@ -50,7 +50,7 @@ func main() {
 		// Default timeouts for different gRPC calls
 		client.WithEvaluateTimeout(5*time.Second),
 		client.WithEndorseTimeout(15*time.Second),
-		client.WithSubmitTimeout(5*time.Second),
+		client.WithSubmitTimeout(30*time.Second),
 		client.WithCommitStatusTimeout(1*time.Minute),
 	)
 	if err != nil {
