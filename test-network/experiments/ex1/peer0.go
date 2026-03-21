@@ -13,16 +13,16 @@ import (
 )
 
 const (
-	mspID       = "Org1MSP"
-	cryptoPath  = "../../organizations/peerOrganizations/org1.example.com"
-	certPath    = cryptoPath + "/users/User1@org1.example.com/msp/signcerts"
-	keyPath     = cryptoPath + "/users/User1@org1.example.com/msp/keystore"
-	tlsCertPath = cryptoPath + "/peers/peer0.org1.example.com/tls/ca.crt"
+	mspID      = "Org1MSP"
+	cryptoPath = "../../organizations/peerOrganizations/org1.example.com"
+	certPath   = cryptoPath + "/users/User1@org1.example.com/msp/signcerts"
+	keyPath    = cryptoPath + "/users/User1@org1.example.com/msp/keystore"
 )
 
 func ContractForEachPeer(peerEndpoint string, gatewayPeer string) *client.Contract {
+	tlsCertPath := cryptoPath + "/peers/" + gatewayPeer + "/tls/ca.crt"
 	// The gRPC client connection should be shared by all Gateway connections to this endpoint
-	clientConnection := newGrpcConnection(gatewayPeer, peerEndpoint)
+	clientConnection := newGrpcConnection(gatewayPeer, peerEndpoint, tlsCertPath)
 	//defer clientConnection.Close()
 
 	id := newIdentity()
@@ -62,7 +62,7 @@ func ContractForEachPeer(peerEndpoint string, gatewayPeer string) *client.Contra
 }
 
 // newGrpcConnection creates a gRPC connection to the Gateway server.
-func newGrpcConnection(_gatewayPeer string, _peerEndpoint string) *grpc.ClientConn {
+func newGrpcConnection(_gatewayPeer string, _peerEndpoint string, tlsCertPath string) *grpc.ClientConn {
 	certificatePEM, err := os.ReadFile(tlsCertPath)
 	if err != nil {
 		panic(fmt.Errorf("failed to read TLS certifcate file: %w", err))
