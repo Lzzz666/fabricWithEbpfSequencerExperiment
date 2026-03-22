@@ -85,16 +85,23 @@ func measureLatency(contract *client.Contract, network *client.Network, numTrans
 	experimentStart := time.Now()
 
 	// --- Phase 2: Submit transactions ---
+	// Burst mode: send burstSize txns every burstInterval.
+	// e.g. at 100 RPS: 10 txns every 100ms (instead of 1 tx every 10ms).
+	// This gives finer-grained timing control while maintaining the same average rate.
+	const burstInterval = 100 * time.Millisecond // fixed burst window
+	burstSize := int(float64(workload) * burstInterval.Seconds())
+	if burstSize < 1 {
+		burstSize = 1
+	}
+
 	var submissions []TxSubmit
 	var mu sync.Mutex
 	var wg sync.WaitGroup
 	errCount := 0
-	interval := time.Duration(float64(time.Second) / float64(workload))
 	timeout := time.After(90 * time.Second)
 
-	for i := 0; i < numTransactions; i++ {
-		time.Sleep(interval)
-
+	submitted := 0
+	for submitted < numTransactions {
 		select {
 		case <-timeout:
 			fmt.Println("Timeout reached, stopping submission.")
@@ -102,37 +109,53 @@ func measureLatency(contract *client.Contract, network *client.Network, numTrans
 		default:
 		}
 
-		assetId := "asset" + strconv.FormatInt(time.Now().UnixNano(), 10)
-		wg.Add(1)
-		go func(id string) {
-			defer wg.Done()
-			tGenerate := time.Now()
+		// How many to send in this burst (don't exceed numTransactions)
+		batch := burstSize
+		if submitted+batch > numTransactions {
+			batch = numTransactions - submitted
+		}
 
-			// Do NOT call commit.Status() — incompatible with hash-only blocks.
-			// SubmitAsync returns after the transaction is endorsed and added
-			// to the peer's batch buffer (submitNonBFT returns immediately).
-			_, commit, err := contract.SubmitAsync(
-				"CreateAsset",
-				client.WithArguments(id, "yellow", "5", "Tom", "1300"),
-			)
-			tOrderer := time.Now()
-			_ = commit // intentionally ignored
+		burstStart := time.Now()
+		for j := 0; j < batch; j++ {
+			assetId := "asset" + strconv.FormatInt(time.Now().UnixNano(), 10) + strconv.Itoa(j)
+			wg.Add(1)
+			go func(id string) {
+				defer wg.Done()
+				tGenerate := time.Now()
 
-			mu.Lock()
-			defer mu.Unlock()
-			if err != nil {
-				if errCount < 3 {
-					fmt.Printf("[ERROR sample %d] SubmitAsync: %v\n", errCount+1, err)
+				// Do NOT call commit.Status() — incompatible with hash-only blocks.
+				// SubmitAsync returns after the transaction is endorsed and added
+				// to the peer's batch buffer (submitNonBFT returns immediately).
+				_, commit, err := contract.SubmitAsync(
+					"CreateAsset",
+					client.WithArguments(id, "yellow", "5", "Tom", "1300"),
+				)
+				tOrderer := time.Now()
+				_ = commit // intentionally ignored
+
+				mu.Lock()
+				defer mu.Unlock()
+				if err != nil {
+					if errCount < 3 {
+						fmt.Printf("[ERROR sample %d] SubmitAsync: %v\n", errCount+1, err)
+					}
+					errCount++
+				} else {
+					submissions = append(submissions, TxSubmit{
+						TxID:      id,
+						TGenerate: tGenerate.UnixNano(),
+						TOrderer:  tOrderer.UnixNano(),
+					})
 				}
-				errCount++
-			} else {
-				submissions = append(submissions, TxSubmit{
-					TxID:      id,
-					TGenerate: tGenerate.UnixNano(),
-					TOrderer:  tOrderer.UnixNano(),
-				})
-			}
-		}(assetId)
+			}(assetId)
+		}
+		submitted += batch
+
+		// Sleep for the remainder of the burst window
+		elapsed := time.Since(burstStart)
+		if sleep := burstInterval - elapsed; sleep > 0 {
+			time.Sleep(sleep)
+		}
 	}
 
 waitSubmit:

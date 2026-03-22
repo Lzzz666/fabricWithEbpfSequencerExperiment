@@ -11,62 +11,76 @@ import (
 
 var wg1 sync.WaitGroup
 
-// Function to measure TPS for asynchronous transactions (TransferAsset)
+// measureTPSTransferAssetAsync submits transactions using a ticker-based approach:
+// every 100ms, a batch of (workload/10) transactions is sent to achieve uniform load.
 func measureTPSTransferAssetAsync(contract *client.Contract, numTransactions int, workload int) {
 	errCount := 0
 	txCount := 0
 	ltCount := 0
 	totalLt := 0
-	var mu sync.Mutex  // Mutex for thread-safe error count updates
-	var mu1 sync.Mutex // Mutex for thread-safe error count updates
+	var mu sync.Mutex
+	var mu1 sync.Mutex
 
-	timeout := make(chan bool, 1)
-	go func() {
-		time.Sleep(90 * time.Second)
-		timeout <- true
-	}()
+	batchSize := workload / 10 // e.g. 500 RPS → 50 tx per 100ms batch
+	if batchSize < 1 {
+		batchSize = 1
+	}
 
-	for i := 0; i < numTransactions; i++ {
-		wg1.Add(1)
-		assetId := "asset" + strconv.Itoa(int(time.Now().UnixNano())) // Generate random asset IDs
-		time.Sleep(time.Duration(1/float64(workload)*1000000) * time.Microsecond)
+	ticker := time.NewTicker(100 * time.Millisecond)
+	defer ticker.Stop()
+	timeout := time.After(90 * time.Second)
+
+	submitted := 0
+	for submitted < numTransactions {
 		select {
 		case <-timeout:
-			i = numTransactions
-			wg1.Done()
-		default:
-			go func(i int) {
-				defer wg1.Done()
-				if i%75 == 0 {
-					latency, err := createAssetWithLatency(contract, assetId)
-					if err != nil {
-						mu.Lock()
-						errCount++
-						mu.Unlock()
+			goto wait
+		case <-ticker.C:
+			count := batchSize
+			if submitted+count > numTransactions {
+				count = numTransactions - submitted
+			}
+			for j := 0; j < count; j++ {
+				wg1.Add(1)
+				assetId := "asset" + strconv.FormatInt(time.Now().UnixNano(), 10)
+				idx := submitted + j
+				go func(id string, i int) {
+					defer wg1.Done()
+					if i%75 == 0 {
+						latency, err := createAssetWithLatency(contract, id)
+						if err != nil {
+							mu.Lock()
+							errCount++
+							mu.Unlock()
+						} else {
+							mu1.Lock()
+							txCount++
+							ltCount++
+							totalLt += int(latency)
+							mu1.Unlock()
+						}
 					} else {
-						mu1.Lock()
-						txCount++
-						ltCount++
-						totalLt += int(latency)
-						mu1.Unlock()
+						err := createAsset(contract, id)
+						if err != nil {
+							mu.Lock()
+							errCount++
+							mu.Unlock()
+						} else {
+							mu1.Lock()
+							txCount++
+							mu1.Unlock()
+						}
 					}
-				} else {
-					err := createAsset(contract, assetId)
-					if err != nil {
-						mu.Lock()
-						errCount++
-						mu.Unlock()
-					} else {
-						mu1.Lock()
-						txCount++
-						mu1.Unlock()
-					}
-				}
-			}(i)
+				}(assetId, idx)
+			}
+			submitted += count
 		}
 	}
 
-	wg1.Wait() // Wait for all async transactions to complete
-	fmt.Printf("=======Transaction Average Latency: %d =======\n", totalLt/ltCount)
-	fmt.Printf("=======Error count: %d =======\n", errCount)
+wait:
+	wg1.Wait()
+	if ltCount > 0 {
+		fmt.Printf("=======Transaction Average Latency: %d =======\n", totalLt/ltCount)
+	}
+	fmt.Printf("=======Submitted: %d  Errors: %d =======\n", txCount, errCount)
 }
