@@ -28,13 +28,13 @@ REMOTE_PATH="~/fabricWithEbpfSequencerExperiment/test-network/boostrapScripts"
 
 # VM 外部 IP 地址
 declare -A VMS
-VMS["orderer0"]="34.81.30.7"
-VMS["orderer1"]="34.81.10.171"
-VMS["orderer2"]="35.201.198.28"
-VMS["orderer3"]="34.81.170.165"
-VMS["peer0"]="35.194.168.248"
-VMS["peer1"]="35.221.209.220"
-VMS["peer2"]="104.199.189.201"
+VMS["orderer0"]="107.167.190.170"
+VMS["orderer1"]="34.80.16.63"
+VMS["orderer2"]="34.80.230.24"
+VMS["orderer3"]="34.80.174.19"
+VMS["peer0"]="34.80.247.165"
+VMS["peer1"]="35.221.173.215"
+VMS["peer2"]="34.80.216.59"
 
 # 顏色定義
 RED='\033[0;31m'
