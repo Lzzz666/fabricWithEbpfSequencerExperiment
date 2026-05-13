@@ -25,13 +25,13 @@ GIT_BRANCH="feat/baseline"
 
 # VM IP 地址配置
 declare -A VMS
-VMS["orderer0"]="34.81.169.202"
-VMS["orderer1"]="34.81.92.165"
-VMS["orderer2"]="35.201.245.17"
-VMS["orderer3"]="35.201.180.52"
-VMS["peer0"]="104.155.212.149"
-VMS["peer1"]="35.187.144.189"
-VMS["peer2"]="35.194.218.189"
+VMS["orderer0"]="35.194.166.111"
+VMS["orderer1"]="34.81.114.178"
+VMS["orderer2"]="35.194.214.34"
+VMS["orderer3"]="35.194.235.192"
+VMS["peer0"]="104.199.222.177"
+VMS["peer1"]="34.81.128.213"
+VMS["peer2"]="35.221.179.86"
 
 # 顏色定義
 RED='\033[0;31m'

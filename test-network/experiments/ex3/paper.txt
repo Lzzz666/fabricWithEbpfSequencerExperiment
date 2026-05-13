@@ -1,0 +1,82 @@
+This chapter presents a comprehensive evaluation of our batch-based transmit sequencer
+design within Hyperledger Fabric, which we evaluate in two variants: one in which each
+batch carries full transaction payloads, and one in which each batch carries only
+transaction hashes. We compare both variants against traditional Raft consensus.
+We begin by outlining the experimental setup, including hardware configurations and workload parameters, then assess system throughput
+and latency under increasing request rates to highlight where each approach excels or
+falls short. Building on these initial findings, we perform a time series analysis to capture
+how performance evolves over extended periods of sustained load, identifying bottlenecks
+at different stages of the packet handling pipeline.
+
+4.1 Experimental Setup
+
+All nodes were deployed on Google Cloud Platform (GCP) using e2-medium instances,
+each equipped with 2 vCPUs and 4 GB of memory. The deployment consists of 3
+peer nodes, 4 orderer nodes, and 1 sequencer node, all placed within the same GCP
+region to ensure stable, low-latency communication.
+
+We evaluated the performance of original Fabric (Raft) and NOPaxos(full transaction payloads and only hash) under various RPS levels by measuring TPS and latency. Transactions were
+evenly distributed between two peers: peer1 and peer2 each received half of the total
+target RPS. For the throughput experiment, all transactions committed over 60 seconds
+were collected to compute TPS. For the latency experiment, each peer submitted
+perPeerRPS * 10 transactions using a burst-based schedule—transactions were grouped
+into 100 ms windows to maintain the target rate while reducing per-transaction timer
+overhead.
+
+Latency was analyzed across endorsement and commit stages to capture both transaction
+submission delay and final confirmation delay. We report standard latency statistics
+(P50, P95, P99, and mean).
+
+Throughput:
+
+Figure 2 shows that NOPaxos (hash) consistently achieves the highest throughput across
+the tested request rates. In the low-to-medium load range (500-1500 RPS), NOPaxos
+(hash) improves throughput by about 26.1% over Raft on average, and by about 26.2%
+over NOPaxos (batch). Under higher offered load (>1500 RPS), the relative gap becomes
+larger: NOPaxos (hash) outperforms Raft by about 97.6% on average and outperforms
+NOPaxos (batch) by about 92.9% on average. Representative points include +44.5% over
+Raft at 1500 RPS, +92.9% at 3000 RPS, and +139.8% at 4500 RPS.
+
+A plausible explanation is that the hash-based variant reduces per-transaction overhead
+along the ordering path (for example, serialization, transmission, and buffering), which
+delays saturation as load increases. Once Raft and the batch variant approach saturation,
+queueing and backpressure effects amplify throughput degradation, making the relative
+advantage of NOPaxos (hash) more pronounced in the overloaded region.
+
+4.2 Latency
+
+End-to-end transaction latency (Ex3) is reported at P50, P95, and P99 for target RPS
+from 100 to 1500. NoPaxos (hash) maintains the lowest median latency for most of the
+range: P50 stays low until about 1200 RPS and then rises under the heaviest tested load.
+NoPaxos-Batch follows the same low-latency regime until about 800–900 RPS, then degrades
+sharply. Raft shows higher median latency at very low RPS, a mid-range minimum, and
+then increases again as load grows. At 1500 RPS, comparing end-to-end latency in ratio
+terms, NoPaxos (hash) has median latency about one-third of Raft’s (roughly a 2.8×
+reduction) and about one-third of NoPaxos-Batch’s (roughly a 3.2× reduction). Tail
+latencies tell a similar story: NoPaxos (hash) P95 and P99 are on the order of 35–40% of
+NoPaxos-Batch’s at 1500 RPS (i.e., tails for the batch variant are roughly 2.5–2.7× higher),
+while Raft’s tails remain substantially above NoPaxos (hash) as well.
+
+We also isolate consensus latency (ordering only: total minus endorse and submit). At
+1500 RPS, Raft’s consensus latency exceeds NoPaxos (hash) by roughly an order of
+magnitude at the median (about 15×) and by several-fold at P95 and P99 (about 4× and
+3× respectively), and exceeds NoPaxos-Batch by an even larger median factor (about
+30×). By contrast, NoPaxos (hash) and NoPaxos-Batch differ only by small multiplicative
+factors in this stage (median about 2×, P95 about 1.5×, P99 about 1.6×), i.e., they remain
+within the same order of magnitude while Raft is far larger. This pattern is consistent
+with hash-based ordering still requiring peers to correlate hashes with full transaction
+payloads for validation and commit: reassembly and lookup largely offsets the lighter
+on-the-wire representation in the consensus path, so consensus latency alone does not show
+a large systematic advantage for the hash-only variant over full-payload batches. The
+dominant end-to-end differences instead arise outside this narrowly defined consensus
+interval (e.g., endorsement, queuing, and commit under load).
+
+## Conclusions
+
+We presented a sequencer-based batch transmission approach for Hyperledger Fabric. 
+By aggregating client transactions into batches before the ordering stage, 
+our design reduces the effective number of consensus/ordering rounds compared with the native Raft-based pipeline.
+
+Experimental results show that this reduction translates into both lower end-to-end latency and higher throughput. 
+The approach is also extensible to multiple sequencers, enabling load partitioning while mitigating single-point failures.
+
