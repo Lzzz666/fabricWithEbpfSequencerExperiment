@@ -61,12 +61,12 @@ services:
       - 11085:11085
       - 11086:11086
     extra_hosts:
-      - "orderer.example.com:10.140.0.19"
-      - "orderer1.example.com:10.140.0.20"
-      - "orderer2.example.com:10.140.0.21"
-      - "orderer3.example.com:10.140.0.22"
-      - "peer0.org1.example.com:10.140.0.16"
-      - "peer1.org1.example.com:10.140.0.17"
-      - "peer2.org1.example.com:10.140.0.18"
+      - "orderer.example.com:10.140.0.26"
+      - "orderer1.example.com:10.140.0.24"
+      - "orderer2.example.com:10.140.0.31"
+      - "orderer3.example.com:10.140.0.27"
+      - "peer0.org1.example.com:10.140.0.28"
+      - "peer1.org1.example.com:10.140.0.25"
+      - "peer2.org1.example.com:10.140.0.29"
     networks:
       - test

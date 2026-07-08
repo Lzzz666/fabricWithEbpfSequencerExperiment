@@ -44,13 +44,13 @@ cd ~/fabricWithEbpfSequencerExperiment/test-network/boostrapScripts/autoDeployme
 sudo bash -c 'cat >> /etc/hosts << EOF
 
 # Hyperledger Fabric orderers and peers
-10.140.0.19 orderer.example.com
-10.140.0.20 orderer1.example.com
-10.140.0.21 orderer2.example.com
-10.140.0.22 orderer3.example.com
-10.140.0.16 peer0.org1.example.com
-10.140.0.17 peer1.org1.example.com
-10.140.0.18 peer2.org1.example.com
+10.140.0.26 orderer.example.com
+10.140.0.24 orderer1.example.com
+10.140.0.31 orderer2.example.com
+10.140.0.27 orderer3.example.com
+10.140.0.28 peer0.org1.example.com
+10.140.0.25 peer1.org1.example.com
+10.140.0.29 peer2.org1.example.com
 EOF'
 ```
 
@@ -158,7 +158,7 @@ ls -la ~/fabricWithEbpfSequencerExperiment/test-network/organizations/ordererOrg
 log_step "Step 0: Fix /etc/hosts"
 
 for vm_name in peer0 peer1 peer2 orderer0 orderer1 orderer2 orderer3; do
-    run_ssh "$vm_name" "sudo bash -c 'echo \"\" >> /etc/hosts && echo \"# Hyperledger Fabric\" >> /etc/hosts && echo \"10.140.0.19 orderer.example.com\" >> /etc/hosts && echo \"10.140.0.20 orderer1.example.com\" >> /etc/hosts && echo \"10.140.0.21 orderer2.example.com\" >> /etc/hosts && echo \"10.140.0.22 orderer3.example.com\" >> /etc/hosts && echo \"10.140.0.16 peer0.org1.example.com\" >> /etc/hosts && echo \"10.140.0.17 peer1.org1.example.com\" >> /etc/hosts && echo \"10.140.0.18 peer2.org1.example.com\" >> /etc/hosts'"
+    run_ssh "$vm_name" "sudo bash -c 'echo \"\" >> /etc/hosts && echo \"# Hyperledger Fabric\" >> /etc/hosts && echo \"10.140.0.26 orderer.example.com\" >> /etc/hosts && echo \"10.140.0.24 orderer1.example.com\" >> /etc/hosts && echo \"10.140.0.31 orderer2.example.com\" >> /etc/hosts && echo \"10.140.0.27 orderer3.example.com\" >> /etc/hosts && echo \"10.140.0.28 peer0.org1.example.com\" >> /etc/hosts && echo \"10.140.0.25 peer1.org1.example.com\" >> /etc/hosts && echo \"10.140.0.29 peer2.org1.example.com\" >> /etc/hosts'"
 done
 ```
 

@@ -20,26 +20,26 @@ SSH_USER="lz"
 
 # VM IP 地址配置
 declare -A VMS
-VMS["orderer0"]="107.167.190.170"
-VMS["orderer1"]="34.80.16.63"
-VMS["orderer2"]="34.80.230.24"
-VMS["orderer3"]="34.80.174.19"
-VMS["peer0"]="34.80.247.165"
-VMS["peer1"]="35.221.173.215"
-VMS["peer2"]="34.80.216.59"
+VMS["orderer0"]="104.199.212.243"
+VMS["orderer1"]="130.211.246.135"
+VMS["orderer2"]="104.199.158.220"
+VMS["orderer3"]="35.185.128.74"
+VMS["peer0"]="34.80.228.213"
+VMS["peer1"]="34.80.78.13"
+VMS["peer2"]="35.229.158.140"
 
 # Orderer 內部 IP 地址（GCP 內部網絡）
 declare -A ORDERER_IPS
-ORDERER_IPS["orderer.example.com"]="10.140.0.19"
-ORDERER_IPS["orderer1.example.com"]="10.140.0.20"
-ORDERER_IPS["orderer2.example.com"]="10.140.0.21"
-ORDERER_IPS["orderer3.example.com"]="10.140.0.22"
+ORDERER_IPS["orderer.example.com"]="10.140.0.26"
+ORDERER_IPS["orderer1.example.com"]="10.140.0.24"
+ORDERER_IPS["orderer2.example.com"]="10.140.0.31"
+ORDERER_IPS["orderer3.example.com"]="10.140.0.27"
 
 # Peer 內部 IP 地址
 declare -A PEER_IPS
-PEER_IPS["peer0.org1.example.com"]="10.140.0.16"
-PEER_IPS["peer1.org1.example.com"]="10.140.0.17"
-PEER_IPS["peer2.org1.example.com"]="10.140.0.18"
+PEER_IPS["peer0.org1.example.com"]="10.140.0.28"
+PEER_IPS["peer1.org1.example.com"]="10.140.0.25"
+PEER_IPS["peer2.org1.example.com"]="10.140.0.29"
 
 # 顏色定義
 RED='\033[0;31m'
