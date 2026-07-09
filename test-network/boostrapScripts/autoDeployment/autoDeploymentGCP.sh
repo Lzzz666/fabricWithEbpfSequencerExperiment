@@ -158,7 +158,7 @@ sleep 1
 run_ssh "peer2" "cd ${REMOTE_PATH}/joinChannel && ./peer2.sh"
 
 log_success "所有節點已加入 channel"
-sleep 5
+sleep 10
 
 # -----------------------------------------------------------------------------
 # Step 5: Install Chaincode
