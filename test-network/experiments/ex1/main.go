@@ -21,8 +21,8 @@ import (
 
 var wgg sync.WaitGroup
 
-var peerEndpoints = [3]string{"10.140.0.25:13051", "10.140.0.29:14051", "10.140.0.29:14051"}
-var gatewayPeers = [3]string{"peer1.org1.example.com", "peer2.org1.example.com", "peer2.org1.example.com"}
+var peerEndpoints = [3]string{"10.140.0.28:14051", "10.140.0.25:13051", "10.140.0.29:14051"}
+var gatewayPeers = [3]string{"peer0.org1.example.com", "peer1.org1.example.com", "peer2.org1.example.com"}
 
 func main() {
 
